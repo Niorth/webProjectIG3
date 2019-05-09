@@ -1,0 +1,18 @@
+<h1>Connexion</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'cookbook:authentification' %}" method="post">
+{% csrf_token %}
+	<p>
+		<label for="username">Nom d'utilisateur</label>
+	    <input type="text" name="username"/>
+	</p>
+
+	<p>
+	    <label for="password">Mot de passe</label>
+	    <input type="password" name="password"/>
+	</p>
+
+<input type="submit" value="Valider" />
+</form>
