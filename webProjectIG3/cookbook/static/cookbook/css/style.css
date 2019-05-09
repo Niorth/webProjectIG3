@@ -2,3 +2,15 @@
 {
     background-color: #66219c;
 }
+
+#userIcon
+{
+	font-size: 200%;
+	color: white;
+	margin-right: 20%;
+}
+
+#account
+{
+	width: 15%;
+}
