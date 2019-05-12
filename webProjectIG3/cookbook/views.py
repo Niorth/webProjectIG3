@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -138,14 +138,13 @@ def saveRecipe(request):
 	return render(request, 'cookbook/index.html')
 
 def getAllIngredients(request):
-    ingredients = Ingredients.objects.all()
+    ingredients = Ingredient.objects.all()
     ingredientsName = []
 
-    for i in len(ingredients):
+    for i in range(len(ingredients)):
     	ingredientsName.append(ingredients[i].name)
 
     data = {
         'ingredientsName': ingredientsName
     }
-    return render(request, 'cookbook/index.html')
     return JsonResponse(data)
