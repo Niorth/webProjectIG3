@@ -1,31 +1,31 @@
 <h1>Inscription</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if messages %}
+{% for message in messages %}
+<p><strong>{{ message }}</strong></p>
+{% endfor %}
+{% endif %}
 
 <form action="{% url 'cookbook:register' %}" method="post">
 {% csrf_token %}
 	<p>
 		<label for="username" >Nom d'utilisateur</label>
-		{% if username %}<input type="text" name="username" value="{{ username }}"/>{% else %}
-	    <input type="text" name="username"/>{% endif %}
+	    <input type="text" name="username"/>
 	</p>
 
 	<p>
 		<label for="name">Nom</label>
-		{% if name %}<input type="text" name="name" value="{{ name }}"/>{% else %}
-	    <input type="text" name="name"/>{% endif %}
+	    <input type="text" name="name"/>
 	</p>
 
 	<p>
 		<label for="firstname">Prénom</label>
-	    {% if firstname %}<input type="text" name="firstname" value="{{ firstname }}"/>{% else %}
-	    <input type="text" name="firstname"/>{% endif %}
+	    <input type="text" name="firstname"/>
 	</p>
 
 	<p>
 		<label for="email">Email</label>
-	    {% if email %}<input type="email" name="email" value="{{ email }}"/>{% else %}
-	    <input type="email" name="email"/>{% endif %}
+	    <input type="email" name="email"/>
 	</p>
 
 	<p>

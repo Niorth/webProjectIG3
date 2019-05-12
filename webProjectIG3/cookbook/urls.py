@@ -8,5 +8,11 @@ urlpatterns = [
     url(r'^authentification/$', views.authentification, name='authentification'),
     url(r'^login/$', views.loginView, name='login'),
     url(r'^join/$', views.joinView, name='join'),
-    url(r'^register/$', views.register, name='register'),
+	url(r'^logout/$', views.logoutView, name='logout'),    
+	url(r'^register/$', views.register, name='register'),
+	url(r'^account/$', views.accountView, name='account'), 
+	url(r'^modifyAccount/$', views.modifyAccount, name='modifyAccount'),   
+	url(r'^createRecipe/$', views.createRecipe, name='createRecipe'),  
+	url(r'^saveRecipe/$', views.saveRecipe, name='saveRecipe'), 
+	url(r'^getAllIngredients/$', views.getAllIngredients, name='getAllIngredients'), 
 ]
