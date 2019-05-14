@@ -75,71 +75,81 @@
 	</header>
 
 	<body>
-		<h1>Créer une recette</h1>
+		<div class="row">
+			<div class="col-md-2"></div>
+				<div class="col-md-8" id="formArea">
+					<h1 id="formTitle">Créer une recette</h1>
 
-		{% if messages %}
-		{% for message in messages %}
-		<p><strong>{{ message }}</strong></p>
-		{% endfor %}
-		{% endif %}
+					{% if messages %}
+					{% for message in messages %}
+					<p><strong>{{ message }}</strong></p>
+					{% endfor %}
+					{% endif %}
 
-		<form action="{% url 'cookbook:saveRecipe' %}" method="post">
-		{% csrf_token %}
-			<p>
-				<label for="name">Nom de la recette</label>
-			    <input type="text" name="name"/>
-			</p>
-			<p> 
-				<label for="recipe_text">Déroulé</label>
-				<input type="text" name="rexipe_text"/>			
-			</p>
-			<p> 
-				<label for="nb_people">Nombre de personne</label>
-				<input type="number" name="nb_people"/>			
-			</p>
-			
-			<p>
-				<div class="searchBar">
-					<label for="ingredient" >Ingredients</label>
-					<input type="text" placeholder="Chercher..." name="ingredient" id="searchBarInput" data-ajax-target="{% url 'cookbook:getAllIngredients' %}">
-				</div>
-				
+					<form action="{% url 'cookbook:createRecipe' %}" method="post" id="recipeForm" class="form-group">
+					{% csrf_token %}
+						<div class="formField">
+							<label for="name">Nom de la recette</label>
+						    <input class="form-control" type="text" name="name" id="name"/>
+						</div>
+						<div class="formField">
+							<label for="recipe_text">Déroulé</label>
+							<textarea class="form-control" name="rexipe_text" id="recipe_text" rows="10"></textarea>			
+						</div>
+						<div class="formField">	
+							<label for="nb_people">Nombre de personne</label>
+							<input class="form-control" type="number" name="nb_people" id="nb_people" min=0/>			
+						</div>
+						
+						<div class="formField row">
+							<div class="col">
+								<div>
+									<label for="ingredient" >Ingredient</label>
+									<input class="form-control formField" type="text" placeholder="Chercher..." name="ingredient" id="searchBarInput" data-ajax-target="{% url 'cookbook:getAllIngredients' %}">	
+								</div>
 
-				<label for="unit">Unité</label>
-				<input type="text" placeholder="Kg" name="unit" id="unit">
+								<label for="unit">Unité</label>
+								<input class="form-control formField" type="text" placeholder="Kg" name="unit" id="unit">
 
-				<label for="qty">Quantité</label>
-				<input type="number" name="qty" id="qty">
+								<label for="qty">Quantité</label>
+								<input class="form-control formField" type="number" name="qty" id="qty" min=0>
 
-				<button type="button" id="addIngredientButton" class="btn btn-dark">Ajouter</button>
+								<button type="button" id="addIngredientButton" class="btn btn-dark">Ajouter</button>
+							</div>
+							<div class="col">
+								<label>Ingredients</label>
+								<select class="custom-select formField" id="ingredientsList" multiple rows=10>
+								</select>
 
-				<select class="custom-select" id="ingredientsList" multiple rows=5>
-				  <option value="1">
-				  	<p>One</p>
-				  	<p>foo</p>
-				  </option>
-				  <option value="2">Two</option>
-				  <option value="3">Three</option>
-				  <option value="1">One</option>
-				  <option value="2">Two</option>
-				  <option value="3">Three</option>
-				</select>
+								<button type="button" class="btn btn-dark" id="removeIngredientButton">Retirer</button>
+							</div>
+						</div>
+						<div class="formField row">
+							<div class="col">
+								<div>
+									<label for="tags" >Tag</label>
+									<input class="form-control formField" type="text" placeholder="Chercher..." name="tags" id="searchBarTagsInput" data-ajax-target="{% url 'cookbook:getAllTags' %}">
+								</div>
+								<button type="button" id="addTagButton" class="btn btn-dark">Ajouter</button>
+							</div>
+							<div class="col">
+								<label>Tags</label>
+								<select class="custom-select formField" id="tagsList" multiple rows=5>
+								</select>
 
-				<input type="hidden" name="nbIngredient" id="nbIngredient" value=0>
+								<button type="button" class="btn btn-dark" id="removeTagButton">Retirer</button>
+							</div>				
+						</div>
+						
 
-				<button type="button" class="btn btn-dark" id="removeIngredientButton">Retirer</button>
-			</p>
-			
-
-		<input type="submit" value="Valider" />
-		</form>
+					<button type="button" id="submitBtn" class="btn btn-dark" data-ajax-target="{% url 'cookbook:createRecipe' %}">Valider</button>
+					</form>
 	</body>
 
 	<footer>
 	<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
 	<script src="{% static 'cookbook/js/ingredientList.js' %}"></script>
-
-
-		
+	<script src="{% static 'cookbook/js/tagsList.js' %}"></script>
+	<script src="{% static 'cookbook/js/submitRecipe.js' %}"></script>
 	</footer>
 </html>

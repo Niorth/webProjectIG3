@@ -18,12 +18,6 @@
 	margin-right: 8%;
 }
 
-.searchBar
-{
-	position: relative;
-  	display: inline-block;
-}
-
 .searchBar-items {
   position: absolute;
   border: 1px solid #d4d4d4;
@@ -31,7 +25,6 @@
   border-top: none;
   z-index: 99;
   /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
   left: 0;
   right: 0;
 }
@@ -45,11 +38,66 @@
 
 .searchBar-items div:hover {
   /*when hovering an item:*/
-  background-color: #e9e9e9;
+  background-color: #66219c;
+  color: #ffffff;
 }
 
 .searchBar-active {
   /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important;
+  background-color:  #66219c !important;
   color: #ffffff;
+}
+
+#formArea{
+    background-color: #EAEAEA;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 5%;
+    margin-bottom: 5%; 
+    padding-bottom: 1%;
+    padding-left: 0px;
+    padding-right: 0px;
+    box-shadow: 8px 8px 12px #aaa;
+}
+
+#loginForm{
+    width: 70%;
+    margin: auto;
+}
+
+#joinForm {
+    width: 70%;
+    margin: auto;
+}
+
+#accountForm {
+	width: 70%;
+    margin: auto;
+}
+
+#recipeForm {
+	width: 80%;
+    margin: auto;
+}
+
+#formTitle {
+	background-color: #66219c;
+	color: white;
+	padding: 4px;
+}
+
+.formField {
+	margin-bottom: 4%
+}
+
+.row {
+	width:100%;
+}
+
+.accountBtn {
+	margin-top: auto;
+}
+
+.flex {
+	display: flex;
 }

@@ -71,73 +71,101 @@
 	</header>
 
 	<body>
-		<h1>Mon compte</h1>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" id="formArea">
+				<h1 id="formTitle">Mon compte</h1>
+				<div id="accountForm">
+					{% if messages %}
+					{% for message in messages %}
+					<p><strong>{{ message }}</strong></p>
+					{% endfor %}
+					{% endif %}
 
-		{% if messages %}
-		{% for message in messages %}
-		<p><strong>{{ message }}</strong></p>
-		{% endfor %}
-		{% endif %}
+					<form action="{% url 'cookbook:modifyAccount' %}" method="post">
+						{% csrf_token %}
+						<div class="form-row formField">
+							<div class="col">
+								<label for="field">Nom d'utilisateur</label>
+						    	<input class="form-control" type="text" name="field" value='{{ username }}'/>
+						    	<input type="hidden" name="type" value="username"/>
+						    </div>
+					    	<div class="col flex">
+					    		<input type="submit" value="Modifier" class="accountBtn btn btn-dark">
+					    	</div>
+						</div>
+					</form>
 
-		<form action="{% url 'cookbook:modifyAccount' %}" method="post">
-			{% csrf_token %}
-			<p>
-				<label for="field">Nom d'utilisateur</label>
-		    	<input type="text" name="field" value='{{ username }}'/>
-		    	<input type="hidden" name="type" value="username"/>
+					<div class="row formField">
+						<div class="col">
+							<form action="{% url 'cookbook:modifyAccount' %}" method="post">
+								{% csrf_token %}
+								<div class="form-row formField">
+									<div class="col-md-8">
+										<label for="field">Nom</label>
+								    	<input class="form-control" type="text" name="field" value='{{ name }}'/>
+								    	<input type="hidden" name="type" value="name"/>
+									</div>
+							    	<div class="col-md-4 flex">
+								    	<input type="submit" value="Modifier"  class="accountBtn btn btn-dark">
+								    </div>
+								</div>
+							</form>
+						</div>
+						<div class="col">
+							<form action="{% url 'cookbook:modifyAccount' %}" method="post">
+								{% csrf_token %}
+								<div class="form-row formField">
+									<div class="col-md-8">
+										<label for="field">Prénom</label>
+								    	<input class="form-control" type="text" name="field" value='{{ firstname }}'/>
+								    	<input type="hidden" name="type" value="firstname"/>
+									</div>
+							    	<div class="col-md-4 flex">
+								    	<input type="submit" value="Modifier" class="accountBtn btn btn-dark">
+								    </div>
+								</div>
+							</form>
+						</div>
+					</div>
 
-		    	<input type="submit" value="Modifier">
-			</p>
-		</form>
+						<form action="{% url 'cookbook:modifyAccount' %}" method="post">
+							{% csrf_token %}
+							<div class="form-row formField">
+								<div class="col">
+									<label for="field">Email</label>
+							    	<input class="form-control" type="email" name="field" value='{{ email }}'/>
+							    	<input type="hidden" name="type" value="email"/>
+							    	</div>
+							    	<div class="col flex">
+							    	<input type="submit" value="Modifier" class="accountBtn btn btn-dark">
+							    </div>
+							</div>
+						</form>
 
+					<form action="{% url 'cookbook:modifyAccount' %}" method="post">
+						{% csrf_token %}
+						<div class="form-row formField">
+							<div class="col-md-5">
+								<label for="field">Mot de passe</label>
+						    	<input class="form-control" type="password" name="oldPassword"/>
+						    </div>
+						    <div class="col-md-5">
+						    	<label for="field">Nouveau mot de passe</label>
+						    	<input class="form-control" type="password" name="field"/>
 
-		<form action="{% url 'cookbook:modifyAccount' %}" method="post">
-			{% csrf_token %}
-			<p>
-				<label for="field">Nom</label>
-		    	<input type="text" name="field" value='{{ name }}'/>
-		    	<input type="hidden" name="type" value="name"/>
+						    	<input type="hidden" name="type" value="password"/>
+						    </div>
+							<div class="col-md-2 flex">
+						    	<input type="submit" value="Modifier" class="accountBtn btn btn-dark">
+						    </div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
 
-		    	<input type="submit" value="Modifier">
-			</p>
-		</form>
-
-		<form action="{% url 'cookbook:modifyAccount' %}" method="post">
-			{% csrf_token %}
-			<p>
-				<label for="field">Prénom</label>
-		    	<input type="text" name="field" value='{{ firstname }}'/>
-		    	<input type="hidden" name="type" value="firstname"/>
-
-		    	<input type="submit" value="Modifier">
-			</p>
-		</form>
-
-		<form action="{% url 'cookbook:modifyAccount' %}" method="post">
-			{% csrf_token %}
-			<p>
-				<label for="field">Email</label>
-		    	<input type="email" name="field" value='{{ email }}'/>
-		    	<input type="hidden" name="type" value="email"/>
-
-		    	<input type="submit" value="Modifier">
-			</p>
-		</form>
-
-		<form action="{% url 'cookbook:modifyAccount' %}" method="post">
-			{% csrf_token %}
-			<p>
-				<label for="field">Mot de passe</label>
-		    	<input type="password" name="oldPassword"/>
-
-		    	<label for="field">Nouveau mot de passe</label>
-		    	<input type="password" name="field"/>
-
-		    	<input type="hidden" name="type" value="password"/>
-
-		    	<input type="submit" value="Modifier">
-			</p>
-		</form>
+		</div>
 	</body>
 
 	<footer>
