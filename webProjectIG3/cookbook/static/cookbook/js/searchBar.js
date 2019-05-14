@@ -99,4 +99,13 @@ $.ajax({
         }
 });
 
+$.ajax({
+        url: $("#searchBarTagsInput").attr("data-ajax-target"),
+        success: function (data) {
+          if (data) {
+            autocomplete(document.getElementById("searchBarTagsInput"), data.tagsName);
+          }
+        }
+});
+
 

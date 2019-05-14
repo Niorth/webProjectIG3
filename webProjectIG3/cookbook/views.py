@@ -7,7 +7,7 @@ from django.views import generic
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from cookbook.models import Ingredient
+from cookbook.models import Ingredient, RecipeTag, Recipe, Belongs, Contains
 from django.urls import reverse
 
 # Create your views here.
@@ -132,10 +132,51 @@ def modifyAccount(request):
 		return HttpResponseRedirect(reverse('cookbook:index'))
 
 def createRecipe(request):
-	return render(request, 'cookbook/createRecipe.html')
+	if request.method=='POST':
 
-def saveRecipe(request):
-	return render(request, 'cookbook/index.html')
+		name = request.POST["name"]
+		recipe_text = request.POST["recipe_text"]
+		nb_people = int(request.POST["nb_people"])
+		ingredients = request.POST.getlist("ingredients[]")
+		unit = request.POST.getlist("unit[]")
+		qty = request.POST.getlist("qty[]")
+		tags = request.POST.getlist("tags[]")
+
+		nbIngredient = len(ingredients)
+		nbTags = len(tags)
+
+		for i in range(nbIngredient):
+			if not Ingredient.objects.filter(name = ingredients[i]).exists():
+				del ingredients[i]
+				del unit[i]
+				del qty[i]
+
+		for i in range(nbTags):
+			if not RecipeTag.objects.filter(name = tags[i]).exists():
+				del tags[i]
+				
+		if name and recipe_text and nb_people and ingredients and unit and qty:
+			if len(ingredients) == len(unit) and len(unit) == len(qty):
+				if nb_people > 0:
+					user = User.objects.get(username = request.user.get_username())
+					recipe = Recipe(user = user, name = name, recipe_text = recipe_text, number_of_people = nb_people)
+					recipe.save()
+
+					for i in range(nbIngredient):
+						contains = Contains(
+							ingredient = Ingredient.objects.get(name = ingredients[i]),
+							unit = unit[i],
+							quantity = qty[i],
+							recipe = recipe)
+						contains.save()
+
+					for i in range(nbTags):
+						belongs = Belongs(recipeTag = RecipeTag.objects.get(name = tags[i]), recipe = recipe)
+						belongs.save()
+					
+	
+	else:
+		return render(request, 'cookbook/createRecipe.html')
 
 def getAllIngredients(request):
     ingredients = Ingredient.objects.all()
@@ -146,5 +187,17 @@ def getAllIngredients(request):
 
     data = {
         'ingredientsName': ingredientsName
+    }
+    return JsonResponse(data)
+
+def getAllTags(request):
+    tags = RecipeTag.objects.all()
+    tagsName = []
+
+    for i in range(len(tags)):
+    	tagsName.append(tags[i].name)
+
+    data = {
+        'tagsName': tagsName
     }
     return JsonResponse(data)
