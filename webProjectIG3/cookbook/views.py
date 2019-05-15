@@ -16,7 +16,19 @@ def index(request):
     return render(request, 'cookbook/index.html')
 
 def loginView(request):
-	return render(request, 'cookbook/login.html')
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('cookbook:index'))
+	else:
+		if request.method == 'GET':
+			return render(request, 'cookbook/login.html')
+		else:
+			user = authenticate(username = request.POST['username'], password = request.POST['password'])
+			if user is not None:
+				login(request, user)
+				return HttpResponseRedirect(reverse('cookbook:index'))
+			else:
+				messages.error(request, "Nom d'utilisateur ou mot de passe incorrecte")
+				return HttpResponseRedirect(reverse('cookbook:login'))
 
 def accountView(request, user=None):
 	if request.user.is_authenticated:
@@ -84,16 +96,7 @@ def logoutView(request):
     return HttpResponseRedirect(reverse('cookbook:index'))
 
 def joinView(request):
-	return render(request, 'cookbook/join.html')
-
-def authentification(request):
-	user = authenticate(username = request.POST['username'], password = request.POST['password'])
-	if user is not None:
-		login(request, user)
-		return HttpResponseRedirect(reverse('cookbook:index'))
-	else:
-		messages.error(request, "Nom d'utilisateur ou mot de passe incorrecte")
-		return HttpResponseRedirect(reverse('cookbook:login'))
+	return render(request, 'cookbook/join.html')	
 
 def register(request):
 	username = request.POST['username']
