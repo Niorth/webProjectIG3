@@ -11,7 +11,6 @@ urlpatterns = [
 	url(r'^logout/$', views.logoutView, name='logout'),    
 	url(r'^register/$', views.register, name='register'),
 	url(r'^account/$', views.accountView, name='account'), 
-	url(r'^modifyAccount/$', views.modifyAccount, name='modifyAccount'),   
 	url(r'^createRecipe/$', views.createRecipe, name='createRecipe'),  
 	url(r'^getAllIngredients/$', views.getAllIngredients, name='getAllIngredients'), 
 	url(r'^getAllTags/$', views.getAllTags, name='getAllTags'), 

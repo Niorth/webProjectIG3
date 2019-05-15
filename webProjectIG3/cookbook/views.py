@@ -20,19 +20,61 @@ def loginView(request):
 
 def accountView(request, user=None):
 	if request.user.is_authenticated:
-		if user is None:
-			user = User.objects.get(username = request.user.get_username())
+		if request.method == 'GET':
+			if user is None:
+				user = User.objects.get(username = request.user.get_username())
 
-		username = user.username
-		name = user.last_name
-		firstname = user.first_name
-		email = user.email
-		return render(request, 'cookbook/account.html', { 
-			"username" : username,
-			"name" : name,
-			"firstname" : firstname,
-			"email" : email,
-			})
+			username = user.username
+			name = user.last_name
+			firstname = user.first_name
+			email = user.email
+			return render(request, 'cookbook/account.html', { 
+				"username" : username,
+				"name" : name,
+				"firstname" : firstname,
+				"email" : email,
+				})
+		else:
+			user = User.objects.get(username = request.user.get_username())
+			fieldType = request.POST['type']
+			fieldValue = request.POST['field']
+			if(fieldType == 'username'):
+				if(not(User.objects.filter(username = fieldValue).exists())):
+					user.username = fieldValue
+					messages.success(request, "Nom d'utilisateur modifié")
+				else: 
+					messages.error(request, "Nom d'utilisateur indisponible")
+
+			elif(fieldType == 'name'):
+				user.last_name = fieldValue
+				messages.success(request, "Nom modifié")
+
+			elif(fieldType == 'firstname'):
+				user.first_name = fieldValue
+				messages.success(request, "Prénom modifié")
+
+			elif(fieldType == 'email'):
+				user.email = fieldValue
+				messages.success(request, "Email modifié")
+
+			elif(fieldType == 'password'):
+				if user.check_password(request.POST['oldPassword']):
+					if(len(fieldValue) > 5):
+						user.set_password(fieldValue);
+
+						user.save()
+
+						user = authenticate(username = request.user.get_username(), password = fieldValue)
+						login(request, user)
+						messages.success(request, 'mot de passe modifié')
+					else:
+						messages.error(request, "Votre mot de passe doit contenir au moins 6 caracteres")
+				else:
+					messages.error(request, 'Mot de passe incorrect')
+
+			user.save()
+			return HttpResponseRedirect(reverse('cookbook:account'))
+
 	else:
 		messages.warning(request, "Veuillez vous connecter")
 		return HttpResponseRedirect(reverse('cookbook:login'))
@@ -84,52 +126,6 @@ def register(request):
 		messages.error(request, "Nom d'utilisateur indisponible")
 
 		return HttpResponseRedirect(reverse('cookbook:join'))
-
-def modifyAccount(request):
-	if request.user.is_authenticated:
-		user = User.objects.get(username = request.user.get_username())
-		fieldType = request.POST['type']
-		fieldValue = request.POST['field']
-		if(fieldType == 'username'):
-			if(not(User.objects.filter(username = fieldValue).exists())):
-				user.username = fieldValue
-				messages.success(request, "Nom d'utilisateur modifié")
-			else: 
-				messages.error(request, "Nom d'utilisateur indisponible")
-
-		elif(fieldType == 'name'):
-			user.last_name = fieldValue
-			messages.success(request, "Nom modifié")
-
-		elif(fieldType == 'firstname'):
-			user.first_name = fieldValue
-			messages.success(request, "Prénom modifié")
-
-		elif(fieldType == 'email'):
-			user.email = fieldValue
-			messages.success(request, "Email modifié")
-
-		elif(fieldType == 'password'):
-			if user.check_password(request.POST['oldPassword']):
-				if(len(fieldValue) > 5):
-					user.set_password(fieldValue);
-
-					user.save()
-
-					user = authenticate(username = request.user.get_username(), password = fieldValue)
-					login(request, user)
-					messages.success(request, 'mot de passe modifié')
-				else:
-					messages.error(request, "Votre mot de passe doit contenir au moins 6 caracteres")
-			else:
-				messages.error(request, 'Mot de passe incorrect')
-
-		user.save()
-
-		return accountView(request, user)
-
-	else:
-		return HttpResponseRedirect(reverse('cookbook:index'))
 
 def createRecipe(request):
 	if request.user.is_authenticated:
