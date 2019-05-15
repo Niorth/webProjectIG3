@@ -28,8 +28,11 @@ let submitBtn = document.getElementById("submitBtn");
         	'tags' : tags,
         },
         success: function (data) {
-          if (data) {
-            console.log(data.a);
+          if (data.success) {
+            window.location.href = data.url;
+          }
+          else {
+            document.getElementById("message").innerHTML = data.message
           }
         }
 	});

@@ -29,7 +29,7 @@ function handleIngredientsList(){
 			newIngredient.setAttribute("class", 'ingredient');
 
 			const newUnit = document.createElement('SPAN');
-			newUnit.innerHTML = ' ' + unit + ' ';
+			newUnit.innerHTML = unit;
 			newUnit.setAttribute("class", 'unit')
 
 			const newQty = document.createElement('SPAN');
@@ -48,7 +48,7 @@ function handleIngredientsList(){
 	function isAlreadyAdded(ingredient) {
 		ingredients = $('.ingredient').toArray();
 		for(var i = 0; i < ingredients.length; i++) {
-			if(ingredients[i].innerHTML == ingredient + " ") {
+			if(ingredients[i].innerHTML == ingredient) {
 				return true;
 			}
 		}
