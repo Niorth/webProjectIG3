@@ -96,39 +96,41 @@ def logoutView(request):
     return HttpResponseRedirect(reverse('cookbook:index'))
 
 def joinView(request):
-	return render(request, 'cookbook/join.html')	
-
-def register(request):
-	username = request.POST['username']
-	name = request.POST['name']
-	firstname = request.POST['firstname']
-	email = request.POST['email']
-	password = request.POST['password']
-
-	if(username == "" or name == "" or firstname == "" or email == "" or password == ""):
-		messages.error(request, "Veuillez remplir tous les champs")
-
-		return HttpResponseRedirect(reverse('cookbook:join'))
-
-	if(not(User.objects.filter(username = username).exists())):
-		if(len(password) > 5):
-			#create user
-			user = User.objects.create_user(username, email, password)
-			user.last_name = name
-			user.first_name = firstname
-			user.save()
-			login(request, user)
-			return HttpResponseRedirect(reverse('cookbook:index'))
-		else:
-			#wrong password
-			messages.error(request, "Votre mot de passe doit contenir au moins 6 caracteres")
-
-			return HttpResponseRedirect(reverse('cookbook:join'))
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('cookbook:index'))
 	else:
-		#wrong username
-		messages.error(request, "Nom d'utilisateur indisponible")
+		if request.method == 'GET':
+			return render(request, 'cookbook/join.html')
+		else:
+			username = request.POST['username']
+			name = request.POST['name']
+			firstname = request.POST['firstname']
+			email = request.POST['email']
+			password = request.POST['password']
 
-		return HttpResponseRedirect(reverse('cookbook:join'))
+			if(username == "" or name == "" or firstname == "" or email == "" or password == ""):
+				messages.error(request, "Veuillez remplir tous les champs")
+
+				return HttpResponseRedirect(reverse('cookbook:join'))
+
+			if(not(User.objects.filter(username = username).exists())):
+				if(len(password) > 5):
+					#create user
+					user = User.objects.create_user(username, email, password)
+					user.last_name = name
+					user.first_name = firstname
+					user.save()
+					login(request, user)
+					return HttpResponseRedirect(reverse('cookbook:index'))
+				else:
+					#wrong password
+					messages.error(request, "Votre mot de passe doit contenir au moins 6 caracteres")
+
+					return HttpResponseRedirect(reverse('cookbook:join'))
+			else:
+				#wrong username
+				messages.error(request, "Nom d'utilisateur indisponible")
+				return HttpResponseRedirect(reverse('cookbook:join'))	
 
 def createRecipe(request):
 	if request.user.is_authenticated:

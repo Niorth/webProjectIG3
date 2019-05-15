@@ -84,7 +84,7 @@
 					{% endif %}
 			
 				
-					<form action="{% url 'cookbook:register' %}" method="post" id="joinForm" class="form-group">
+					<form action="{% url 'cookbook:join' %}" method="post" id="joinForm" class="form-group">
 						{% csrf_token %}
 						<div class="formField">
 							<label for="username" >Nom d'utilisateur</label>
