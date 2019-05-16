@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/style.css' %}" />
 
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
 		<script src="{% static 'cookbook/js/bootstrap/bootstrap.min.js' %}"></script>
 	</head>
 
@@ -71,38 +71,30 @@
 
 	</header>
 
-	</header>
 	<body>
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-6" id="formArea">
-				<h1 id="formTitle">Connexion</h1>
-
-				{% if messages %}
-				{% for message in messages %}
-				<p><strong>{{ message }}</strong></p>
-				{% endfor %}
-				{% endif %}
-
-				<form action="{% url 'cookbook:login' %}" method="post" id="loginForm" class="form-group">
-				{% csrf_token %}
-
-					<div class="formField">
-						<label for="username">Nom d'utilisateur</label>
-					    <input class="form-control" type="text" name="username"/>
-					</div>
-
-					<div class="formField">
-					    <label for="password">Mot de passe</label>
-					    <input class="form-control" type="password" name="password"/>
-					</div>
-
-				<input type="submit" value="Valider" class="btn btn-dark"/>
-				</form>
-
-			</div>
-			<div class="col-md-3"></div>
-
+		<h1 id="recipesTitle">Mes recettes</h1>
+		<div id="recipesBg">
+		{% if recipes %}
+		{%for recipe in recipes%}
+			
+				<div class="card">
+					<div class="card-body">
+				    	<img src="{% static 'cookbook/images/default.png' %}" class="card-img-top" alt="recipe img">
+				    		<div class="card-body">
+				      			<h5 class="card-title">{{ recipe.name }}</h5>
+				    		</div>
+				    		<a href="{% url 'cookbook:recipe' recipe.id %}" class="btn btn-dark">Voir la recette</a>
+				    </div>
+			    </div>
+		  	
+		{%endfor%}
+		{% else %}
+		<h1>Pas de recettes</h1>
+		{%endif%}
 		</div>
 	</body>
+
+	<footer>
+		
+	</footer>
 </html>

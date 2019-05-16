@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/style.css' %}" />
 
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
 		<script src="{% static 'cookbook/js/bootstrap/bootstrap.min.js' %}"></script>
 	</head>
 
@@ -17,7 +17,7 @@
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
-		  <a class="navbar-brand" href="#">
+		  <a class="navbar-brand" href="{% url 'cookbook:index' %}">
 		    <img src="{% static 'cookbook/images/cookbookLogo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
 		    Cookbook
 		  </a>
@@ -26,14 +26,14 @@
 			{% if user.is_authenticated %}	
 		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Accueil</a>
+		        <a class="nav-link" href="{% url 'cookbook:index' %}">Accueil</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Mes Recettes</a>
+		        <a class="nav-link" href="{% url 'cookbook:recipes' %}">Mes Recettes</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Créer une recette</a>
-		     </li>
+		        <a class="nav-link" href="{% url 'cookbook:createRecipe' %}">Créer une recette</a>
+		      </li>
 		    </ul>
 
 		    <form class="form-inline my-2 my-lg-0" id="searchBar">
@@ -59,15 +59,16 @@
 		    </ul>
 		    <ul class="navbar-nav">
 		      <li class="nav-item">
-		        <a class="nav-link" href="{% url 'cookbook:login' %}"><button type="button" class="btn btn-outline-success">Connexion</button></a>
+		        <a class="nav-link" href="{% url 'cookbook:login' %}"><button type="button" class="btn btn-outline-light">Connexion</button></a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" href="{% url 'cookbook:join' %}"><button type="button" class="btn btn-outline-success">Inscription</button></a>
+		        <a class="nav-link" href="{% url 'cookbook:join' %}"><button type="button" class="btn btn-outline-light">Inscription</button></a>
 		      </li>
 		    </ul>
 		    {% endif %}
 		  </div>
 		</nav>
+
 	</header>
 
 	<body>
@@ -82,7 +83,7 @@
 					{% endfor %}
 					{% endif %}
 
-					<form action="{% url 'cookbook:account' %}" method="post">
+					<form action="{% url 'cookbook:account' %}" method="put">
 						{% csrf_token %}
 						<div class="form-row formField">
 							<div class="col">

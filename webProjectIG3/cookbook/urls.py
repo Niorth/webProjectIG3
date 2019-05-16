@@ -10,7 +10,9 @@ urlpatterns = [
 	url(r'^logout/$', views.logoutView, name='logout'),    
 	url(r'^account/$', views.accountView, name='account'), 
 	url(r'^createRecipe/$', views.createRecipe, name='createRecipe'),  
+	url(r'^recipes/$', views.allRecipes, name='recipes'), 
 	url(r'^getAllIngredients/$', views.getAllIngredients, name='getAllIngredients'), 
 	url(r'^getAllTags/$', views.getAllTags, name='getAllTags'), 
+	url(r'^recipe/(?P<recipe_id>[0-9]+)/$', views.recipe, name='recipe'), 
 
 ]

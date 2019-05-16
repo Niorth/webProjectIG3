@@ -215,3 +215,31 @@ def getAllTags(request):
         'tagsName': tagsName
     }
     return JsonResponse(data)
+
+def allRecipes(request):
+	if request.user.is_authenticated:
+		if request.method=='GET':
+			allRecipes = Recipe.objects.filter(user = User.objects.get(username = request.user.get_username()))				
+
+			return render(request, 'cookbook/recipes.html', {"recipes":allRecipes})
+	else:
+		messages.warning(request, "Veuillez vous connecter")
+		return HttpResponseRedirect(reverse('cookbook:login'))
+
+def recipe(request, recipe_id):
+	if request.user.is_authenticated:
+		if request.method=='GET':
+			if request.user == Recipe.objects.get(id = recipe_id).user:
+				recipe = Recipe.objects.get(id = recipe_id)
+				ingredients = Contains.objects.filter(recipe = recipe_id)
+				tags = Belongs.objects.filter(recipe = recipe_id)
+				context = {"recipe" : recipe, "ingredients" : ingredients, "tags" : tags}
+				return render(request, 'cookbook/recipe.html', context)
+			else:
+				HttpResponseRedirect(reverse('cookbook:index'))
+		else:
+				HttpResponseRedirect(reverse('cookbook:index'))
+	else:
+		messages.warning(request, "Veuillez vous connecter")
+		HttpResponseRedirect(reverse('cookbook:login'))
+

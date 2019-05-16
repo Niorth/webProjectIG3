@@ -101,3 +101,44 @@
 .flex {
 	display: flex;
 }
+
+.card {
+  width: 25%;
+  display: inline-block;
+  margin: 4%;
+}
+
+@media only screen and (max-width: 800px) {
+  /* For mobile phones: */
+  .card {
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 75%;
+    display: flex;
+  }
+}
+
+#recipesTitle {
+  width: 80%;
+  background-color: #66219c;
+  box-shadow: 8px 8px 12px #aaa;
+  margin: auto;
+  border-radius: .25rem;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  color:white;
+}
+
+#recipesBg {
+  width: 80%;
+  background-color: #EAEAEA;
+  box-shadow: 8px 8px 12px #aaa;
+  margin: auto;
+  border-radius: .25rem;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
