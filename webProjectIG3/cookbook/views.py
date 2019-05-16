@@ -233,6 +233,7 @@ def recipe(request, recipe_id):
 				recipe = Recipe.objects.get(id = recipe_id)
 				ingredients = Contains.objects.filter(recipe = recipe_id)
 				tags = Belongs.objects.filter(recipe = recipe_id)
+
 				context = {"recipe" : recipe, "ingredients" : ingredients, "tags" : tags}
 				return render(request, 'cookbook/recipe.html', context)
 			else:

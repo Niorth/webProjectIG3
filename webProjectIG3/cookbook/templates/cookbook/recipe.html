@@ -6,6 +6,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/bootstrap/bootstrap.min.css' %}" />
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/style.css' %}" />
 
 		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
@@ -74,6 +75,46 @@
 	<body>
 		<h1 id="recipesTitle">{{recipe.name}}</h1>
 		<div id="recipesBg">
+			<div class="row">
+				<div class="col">
+					<h3>{{recipe.name}} pour {{recipe.number_of_people}} personne{% if recipe.number_of_people > 1 %}s{% endif %}</h3>
+					{% for tag in tags %}
+						<span class="badge badge-pill badge-dark">{{ tag.recipeTag.name }}</span>
+					{% endfor %}
+				</div>
+
+				<div class="col">
+					<div id="recipeImg">
+						<img src="{% static 'cookbook/images/default.png' %}" >
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<h4>Ingredients</h4>
+					<ul class="list-group list-group-flush">
+					{% for ingredient in ingredients %}
+						<li class="list-group-item">>
+							<span>{{ ingredient.ingredient.name }}</span>
+							<span>{{ ingredient.quantity }}</span>
+							<span>{{ ingredient.unit }}</span>
+						</li>
+					{% endfor %}
+					</ul>
+					
+					<h4 class="lineSeparator">Recette</h4>
+					<div>
+						<p>{{ recipe.recipe_text|linebreaks }}</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="recipeBtn">
+						<button type="button" class="btn btn-dark">Modifier la recette</button>
+						<button type="button" class="btn btn-danger">Supprimer la recette</button>
+					</div>
+					
+				</div>
+			</div>
 		</div>
 	</body>
 

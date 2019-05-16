@@ -1,3 +1,7 @@
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
 #navbar 
 {
     background-color: #66219c;
@@ -139,6 +143,28 @@
   border-radius: .25rem;
   margin-top: 60px;
   margin-bottom: 40px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
+}
+
+.list-group-item {
+  background-color: #EAEAEA;
+}
+
+.list-group {
+  margin-bottom: 20px;
+}
+
+#recipeImg {
+  max-width: 50%;
+  margin: auto;
+}
+
+.lineSeparator {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.recipeBtn {
+  position: absolute;
+  bottom:0;
+  right:0;
 }
