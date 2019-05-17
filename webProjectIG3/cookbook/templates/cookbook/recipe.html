@@ -94,7 +94,7 @@
 					<h4>Ingredients</h4>
 					<ul class="list-group list-group-flush">
 					{% for ingredient in ingredients %}
-						<li class="list-group-item">>
+						<li class="list-group-item">
 							<span>{{ ingredient.ingredient.name }}</span>
 							<span>{{ ingredient.quantity }}</span>
 							<span>{{ ingredient.unit }}</span>
@@ -108,9 +108,14 @@
 					</div>
 				</div>
 				<div class="col">
-					<div class="recipeBtn">
-						<button type="button" class="btn btn-dark">Modifier la recette</button>
-						<button type="button" class="btn btn-danger">Supprimer la recette</button>
+					<div class="recipeBtns">
+						<form action="{% url 'cookbook:updateRecipe' recipe.id%}" method="get">
+							<input type="submit" class="btn btn-dark recipeBtn" value="Modifier la recette"/>
+						</form>
+						<form action="{% url 'cookbook:deleteRecipe' recipe.id%}" method="post">
+							{% csrf_token %}
+							<input type="submit" class="btn btn-danger recipeBtn" value="Supprimer la recette"/>
+						</form>
 					</div>
 					
 				</div>

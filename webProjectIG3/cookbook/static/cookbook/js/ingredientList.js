@@ -24,31 +24,24 @@ function handleIngredientsList(){
 
 			const newLine = document.createElement('option');
 
-			const newIngredient = document.createElement('SPAN');
-			newIngredient.innerHTML = ingredient;
-			newIngredient.setAttribute("class", 'ingredient');
-
-			const newUnit = document.createElement('SPAN');
-			newUnit.innerHTML = unit;
-			newUnit.setAttribute("class", 'unit')
-
-			const newQty = document.createElement('SPAN');
-			newQty.innerHTML = qty;
-			newQty.setAttribute("class", 'qty')
-
-			newLine.appendChild(newIngredient);
-			newLine.appendChild(newQty);
-			newLine.appendChild(newUnit);
-			
+			newLine.innerHTML = ingredient + ", " + qty + ", " + unit;
 
 		    ingredientsList.appendChild(newLine);
 		}	
 	});
 
 	function isAlreadyAdded(ingredient) {
-		ingredients = $('.ingredient').toArray();
+		ingredients = []
+
+		let ingredientOption = document.getElementById("ingredientsList").options
+
+	    for(var i = 0; i < ingredientOption.length; i++) {
+	        arr = ingredientOption[i].value.split(", ")
+	        ingredients.push(arr[0])
+	    }
+
 		for(var i = 0; i < ingredients.length; i++) {
-			if(ingredients[i].innerHTML == ingredient) {
+			if(ingredients[i] == ingredient) {
 				return true;
 			}
 		}

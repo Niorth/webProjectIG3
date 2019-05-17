@@ -168,7 +168,7 @@ def createRecipe(request):
 							contains = Contains(
 								ingredient = Ingredient.objects.get(name = ingredients[i]),
 								unit = unit[i],
-								quantity = qty[i],
+								quantity = int(qty[i]),
 								recipe = recipe)
 							contains.save()
 
@@ -239,8 +239,92 @@ def recipe(request, recipe_id):
 			else:
 				HttpResponseRedirect(reverse('cookbook:index'))
 		else:
-				HttpResponseRedirect(reverse('cookbook:index'))
+			HttpResponseRedirect(reverse('cookbook:index'))
 	else:
 		messages.warning(request, "Veuillez vous connecter")
 		HttpResponseRedirect(reverse('cookbook:login'))
+
+def deleteRecipe(request, recipe_id):
+	if request.user.is_authenticated:
+		if request.user == Recipe.objects.get(id = recipe_id).user:
+			Recipe.objects.get(id = recipe_id).delete()
+			return HttpResponseRedirect(reverse('cookbook:recipes'))
+		else:
+			return HttpResponseRedirect(reverse('cookbook:recipes'))
+	else:
+		messages.warning(request, "Veuillez vous connecter")
+		return HttpResponseRedirect(reverse('cookbook:login'))
+
+def updateRecipe(request, recipe_id):
+	if request.user.is_authenticated:
+		if request.user == Recipe.objects.get(id = recipe_id).user:
+			if request.method=='GET':
+			
+				recipe = Recipe.objects.get(id = recipe_id)
+				ingredients = Contains.objects.filter(recipe = recipe_id)
+				tags = Belongs.objects.filter(recipe = recipe_id)
+
+				context = {"recipe" : recipe, "ingredients" : ingredients, "tags" : tags, "updateRecipe" : True}
+				return render(request, 'cookbook/createRecipe.html', context)
+
+			else:
+				name = request.POST["name"]
+				recipe_text = request.POST["recipe_text"]
+				nb_people = request.POST["nb_people"]
+				ingredients = request.POST.getlist("ingredients[]")
+				unit = request.POST.getlist("unit[]")
+				qty = request.POST.getlist("qty[]")
+				tags = request.POST.getlist("tags[]")
+
+				nbIngredient = len(ingredients)
+				nbTags = len(tags)
+
+				for i in range(nbIngredient):
+					if not Ingredient.objects.filter(name = ingredients[i]).exists():
+						del ingredients[i]
+						del unit[i]
+						del qty[i]
+
+				for i in range(nbTags):
+					if not RecipeTag.objects.filter(name = tags[i]).exists():
+						del tags[i]
+						
+				if name and recipe_text and nb_people and ingredients and unit and qty:
+					if len(ingredients) == len(unit) and len(unit) == len(qty):
+						if int(nb_people) > 0:
+							recipe = Recipe.objects.get(id = recipe_id)
+							recipe.name = name
+							recipe.recipe_text = recipe_text
+							recipe.number_of_people = nb_people
+
+							recipe.save()
+
+							Contains.objects.filter(recipe = recipe).delete()
+							Belongs.objects.filter(recipe = recipe).delete()
+
+							for i in range(nbIngredient):
+								contains = Contains(
+									ingredient = Ingredient.objects.get(name = ingredients[i]),
+									unit = unit[i],
+									quantity = int(qty[i]),
+									recipe = recipe)
+								contains.save()
+
+							for i in range(nbTags):
+								belongs = Belongs(recipeTag = RecipeTag.objects.get(name = tags[i]), recipe = recipe)
+								belongs.save()
+
+							return JsonResponse({"success" : True, "url" : reverse("cookbook:recipe", kwargs={'recipe_id': recipe_id})})
+						else:
+							return JsonResponse({"success" : False, "message" : "Nombre de personne invalide"})
+					else:
+						return JsonResponse({"success" : False, "message" : "Une erreur est survenue sur la liste d'ingrédients"})
+				else:
+					return JsonResponse({"success" : False, "message" : "Veuillez remplir les champs obligatoires correctement"})
+		else:
+			return HttpResponseRedirect(reverse('cookbook:index'))
+	else:
+		messages.warning(request, "Veuillez vous connecter")
+		return HttpResponseRedirect(reverse('cookbook:login'))
+
 

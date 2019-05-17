@@ -87,15 +87,15 @@
 					{% csrf_token %}
 						<div class="formField">
 							<label for="name">Nom de la recette</label>
-						    <input class="form-control" type="text" name="name" id="name"/>
+						    <input class="form-control" type="text" name="name" id="name" value="{% if recipe %}{{recipe.name}}{% endif %}"/>
 						</div>
 						<div class="formField">
 							<label for="recipe_text">Recette</label>
-							<textarea class="form-control" name="rexipe_text" id="recipe_text" rows="10"></textarea>			
+							<textarea class="form-control" name="rexipe_text" id="recipe_text" rows="10">{% if recipe %}{{recipe.recipe_text}}{% endif %}</textarea>			
 						</div>
 						<div class="formField">	
 							<label for="nb_people">Nombre de personne</label>
-							<input class="form-control" type="number" name="nb_people" id="nb_people" min=0/>			
+							<input class="form-control" type="number" name="nb_people" id="nb_people" min=0 value="{% if recipe %}{{recipe.number_of_people}}{% endif %}"/>			
 						</div>
 						
 						<div class="formField row">
@@ -116,6 +116,11 @@
 							<div class="col">
 								<label>Ingredients</label>
 								<select class="custom-select formField" id="ingredientsList" multiple rows=10>
+									{% if ingredients %}
+										{% for ingredient in ingredients %}
+											<option>{{ingredient.ingredient.name}}, {{ingredient.quantity}}, {{ingredient.unit}}</option>
+										{% endfor %}
+									{% endif %}
 								</select>
 
 								<button type="button" class="btn btn-dark" id="removeIngredientButton">Retirer</button>
@@ -132,6 +137,11 @@
 							<div class="col">
 								<label>Tags</label>
 								<select class="custom-select formField" id="tagsList" multiple rows=5>
+									{% if ingredients %}
+										{% for tag in tags %}
+											<option class="tag">{{tag.recipeTag.name}}</option>
+										{% endfor %}
+									{% endif %}
 								</select>
 
 								<button type="button" class="btn btn-dark" id="removeTagButton">Retirer</button>
@@ -139,7 +149,7 @@
 						</div>
 						
 
-					<button type="button" id="submitBtn" class="btn btn-dark" data-ajax-target="{% url 'cookbook:createRecipe' %}">Valider</button>
+					<button type="button" id="submitBtn" class="btn btn-dark" data-ajax-target="{% if updateRecipe %}{% url 'cookbook:updateRecipe' recipe.id%}{% else %}{% url 'cookbook:createRecipe' %}{% endif %}">Valider</button>
 					<p id="message"></p>
 					</form>
 	</body>
