@@ -11,6 +11,7 @@ class Recipe(models.Model):
 	name = models.CharField(max_length = 100)
 	recipe_text = models.TextField()
 	number_of_people = models.IntegerField()
+	creation_date = models.DateTimeField(null=True)
 
 	def __str__(self):
 		return self.name

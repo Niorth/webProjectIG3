@@ -71,56 +71,14 @@
 		</nav>
 
 	</header>
-		<body>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8" id="formArea">
 
-					<h1 id="formTitle">Inscription</h1>
+	<body>
+		<div id="recipesBg">
+			<h1>Recette introuvable</h1>
+		<div>
+	</body>
 
-					{% if messages %}
-					{% for message in messages %}
-					<p><strong>{{ message }}</strong></p>
-					{% endfor %}
-					{% endif %}
-			
-				
-					<form action="{% url 'cookbook:join' %}" method="post" id="joinForm" class="form-group">
-						{% csrf_token %}
-						<div class="formField">
-							<label for="username" >Nom d'utilisateur</label>
-						    <input class="form-control" type="text" name="username"/>
-						</div>
-
-						<div class="form-row">
-							<div class="formField col">
-								<label for="name">Nom</label>
-							    <input class="form-control" type="text" name="name"/>
-							</div>
-
-							<div class="formField col">
-								<label for="firstname">Prénom</label>
-							    <input class="form-control" type="text" name="firstname"/>
-							</div>
-						</div>
-
-						<div class="formField">
-							<label for="email">Email</label>
-						    <input class="form-control" type="email" name="email"/>
-						</div>
-
-						<div class="formField">
-						    <label for="password">Mot de passe</label>
-						    <input class="form-control" type="password" name="password"/>
-						</div>
-
-						<input type="submit" value="Valider" class="btn btn-dark"/>
-					</form>
-				</div>
-				<div class="col-md-2"></div>
-			</div>
-		</body>
-		<footer>
-			<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
-		</footer>
+	<footer>
+		<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
+	</footer>
 </html>

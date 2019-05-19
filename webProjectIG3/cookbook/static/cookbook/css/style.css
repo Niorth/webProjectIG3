@@ -174,3 +174,36 @@ body {
   margin-bottom: 10px;
   width: 100%;
 }
+
+.white {
+  color: white;
+}
+
+#index {
+  width: 50%;
+  background-color: #66219c;
+  margin: auto; 
+  margin-top: 100px;
+  box-shadow: 8px 8px 12px #aaa;
+  border-radius: .25rem;
+  text-align: center;
+  padding: 20px;
+}
+
+.btnIndex {
+  margin-top: 100px;
+  margin-bottom: 20px;
+  bottom: 0;
+}
+
+#searchBarRecipeInputsearchBar-list {
+  right: auto;
+  left: auto;
+  min-width: 80%;
+  top: 100%;
+}
+
+#searchBarRecipe {
+  position: relative;
+  margin-right: 20px;
+}

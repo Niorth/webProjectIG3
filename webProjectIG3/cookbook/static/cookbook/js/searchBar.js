@@ -108,4 +108,13 @@ $.ajax({
         }
 });
 
+$.ajax({
+        url: $("#searchBarRecipeInput").attr("data-ajax-target"),
+        success: function (data) {
+          if (data) {
+            autocomplete(document.getElementById("searchBarRecipeInput"), data.recipesName);
+          }
+        }
+});
+
 

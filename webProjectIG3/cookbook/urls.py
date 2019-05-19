@@ -13,7 +13,9 @@ urlpatterns = [
 	url(r'^recipes/$', views.allRecipes, name='recipes'), 
 	url(r'^getAllIngredients/$', views.getAllIngredients, name='getAllIngredients'), 
 	url(r'^getAllTags/$', views.getAllTags, name='getAllTags'), 
-	url(r'^recipe/(?P<recipe_id>[0-9]+)/$', views.recipe, name='recipe'), 
+	url(r'^getAllRecipes/$', views.getAllRecipes, name='getAllRecipes'), 
+	url(r'^getRcipeByName/$', views.getRecipeByName, name='getRecipeByName'),
+	url(r'^recipe/(?P<recipe_id>[0-9]+)/$', views.recipe, name='recipe'),
 	url(r'^deleteRecipe/(?P<recipe_id>[0-9]+)/$', views.deleteRecipe, name='deleteRecipe'),
 	url(r'^updateRecipe/(?P<recipe_id>[0-9]+)/$', views.updateRecipe, name='updateRecipe'),
 

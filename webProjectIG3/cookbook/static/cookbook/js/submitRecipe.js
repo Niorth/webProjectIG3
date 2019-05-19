@@ -4,19 +4,19 @@ let submitBtn = document.getElementById("submitBtn");
 	let name = document.getElementById("name").value;
 	let recipe_text = document.getElementById("recipe_text").value;
 	let nb_people = document.getElementById("nb_people").value;
-	var ingredients = [];
-	var unit = [];
-	var qty = [];
+	var ingredientsInput = $('.ingredient').toArray()
+	var unitInput = $('.unit').toArray()
+	var qtyInput = $('.qty').toArray()
 	let tags = getInnerHtml($('.tag').toArray());
 	let csrftoken = getCookie('csrftoken');
+    var ingredients = []
+    var unit = []
+    var qty = []
 
-    let ingredientOption = document.getElementById("ingredientsList").options
-
-    for(var i = 0; i < ingredientOption.length; i++) {
-        arr = ingredientOption[i].value.split(", ")
-        ingredients.push(arr[0])
-        qty.push(arr[1])
-        unit.push(arr[2])
+    for(var i = 0; i < ingredientsInput.length; i++) {
+        ingredients.push(ingredientsInput[i].value)
+        qty.push(qtyInput[i].value)
+        unit.push(unitInput[i].value)
     }
 
 	$.ajax({

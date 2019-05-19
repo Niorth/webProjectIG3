@@ -10,6 +10,7 @@
 
 		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
 		<script src="{% static 'cookbook/js/bootstrap/bootstrap.min.js' %}"></script>
+
 	</head>
 
 	<header>
@@ -36,9 +37,9 @@
 		      </li>
 		    </ul>
 
-		    <form class="form-inline my-2 my-lg-0" id="searchBar">
-		      <input class="form-control mr-sm-2" type="search" placeholder="Chercher" aria-label="Search">
-		      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+		    <form class="form-inline my-2 my-lg-0" id="searchBarRecipe" action="{% url 'cookbook:getRecipeByName' %}" method="get">
+		      <input class="form-control mr-sm-2" id="searchBarRecipeInput" name="name" type="search" placeholder="Chercher" aria-label="Search" data-ajax-target="{% url 'cookbook:getAllRecipes' %}" autocomplete="off">
+		      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 		    </form>
 		    
 		    <ul class="navbar-nav ">
@@ -72,9 +73,16 @@
 	</header>
 
 	<body>
+		<div id="index">
+			<h1 class="white">Bienvenue sur Cookbook</h1>
+			{% if not user.is_authenticated %}	
+				<a href="{% url 'cookbook:login' %}"><button type="button" class="btn btn-outline-light btnIndex">Connexion</button></a>
+				<a href="{% url 'cookbook:join' %}"><button type="button" class="btn btn-outline-light btnIndex">Inscription</button></a>
+			{% endif %}	
+		</div>
 	</body>
 
 	<footer>
-		
+		<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
 	</footer>
 </html>

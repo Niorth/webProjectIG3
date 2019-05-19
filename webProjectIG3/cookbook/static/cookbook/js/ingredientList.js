@@ -22,26 +22,48 @@ function handleIngredientsList(){
 				return false
 			}
 
-			const newLine = document.createElement('option');
+			nbIngredients = document.getElementById("nbIngredients")
+			nbIngredients.value = parseInt(nbIngredients.value) + 1
 
-			newLine.innerHTML = ingredient + ", " + qty + ", " + unit;
+			const newLine = document.createElement('option');
+			newLine.innerHTML = ingredient + " " + qty + unit;
+			newLine.setAttribute("id", "option"+nbIngredients.value)
+
+
+			newIngredient = document.createElement('input')
+			newUnit = document.createElement('input')
+			newQty = document.createElement('input')
+
+			newIngredient.setAttribute("class", "ingredient")
+			newUnit.setAttribute("class", "unit")
+			newQty.setAttribute("class", "qty")
+
+			newIngredient.setAttribute("id", "ingredient"+nbIngredients.value)
+			newUnit.setAttribute("id", "unit"+nbIngredients.value)
+			newQty.setAttribute("id", "qty"+nbIngredients.value)
+
+			newIngredient.setAttribute("type", "hidden")
+			newUnit.setAttribute("type", "hidden")
+			newQty.setAttribute("type", "hidden")
+
+			newIngredient.value = ingredient
+			newUnit.value = unit
+			newQty.value = qty
+
+			hidden = document.getElementById("ingredientsHidden")
+			hidden.appendChild(newIngredient)
+			hidden.appendChild(newUnit)
+			hidden.appendChild(newQty)
 
 		    ingredientsList.appendChild(newLine);
 		}	
 	});
 
 	function isAlreadyAdded(ingredient) {
-		ingredients = []
-
-		let ingredientOption = document.getElementById("ingredientsList").options
-
-	    for(var i = 0; i < ingredientOption.length; i++) {
-	        arr = ingredientOption[i].value.split(", ")
-	        ingredients.push(arr[0])
-	    }
+		ingredients = $(".ingredient").toArray()
 
 		for(var i = 0; i < ingredients.length; i++) {
-			if(ingredients[i] == ingredient) {
+			if(ingredients[i].value == ingredient) {
 				return true;
 			}
 		}
@@ -67,6 +89,10 @@ function handleIngredientsList(){
 	function removeIngredient(){
 		const toRemove = getSelectIngredients();
 		for(var i = 0; i < toRemove.length; i++) {
+			idToRemove = toRemove[i].id.split("option")[1]
+			document.getElementById("ingredient"+idToRemove).remove()
+			document.getElementById("unit"+idToRemove).remove()
+			document.getElementById("qty"+idToRemove).remove()
 			toRemove[i].remove();
 		}
 	}

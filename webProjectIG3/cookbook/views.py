@@ -216,6 +216,28 @@ def getAllTags(request):
     }
     return JsonResponse(data)
 
+def getAllRecipes(request):
+    recipes = Recipe.objects.all()
+    recipesName = []
+
+    for i in range(len(recipes)):
+    	recipesName.append(recipes[i].name)
+
+    data = {
+        'recipesName': recipesName
+    }
+    return JsonResponse(data)
+
+def getRecipeByName(request):
+	if request.user.is_authenticated:
+		if request.method=='GET':
+			name = request.GET["name"]
+			if Recipe.objects.filter(name = name, user = User.objects.get(username = request.user.get_username())).exists():
+				recipeId = Recipe.objects.filter(name = name, user = User.objects.get(username = request.user.get_username()))[0].id
+				return recipe(request, recipeId)
+			else:
+				return render(request, 'cookbook/noRecipe.html')
+
 def allRecipes(request):
 	if request.user.is_authenticated:
 		if request.method=='GET':
@@ -261,10 +283,15 @@ def updateRecipe(request, recipe_id):
 			if request.method=='GET':
 			
 				recipe = Recipe.objects.get(id = recipe_id)
-				ingredients = Contains.objects.filter(recipe = recipe_id)
+				ingredientsList = Contains.objects.filter(recipe = recipe_id)
+				ingredients = []
 				tags = Belongs.objects.filter(recipe = recipe_id)
 
-				context = {"recipe" : recipe, "ingredients" : ingredients, "tags" : tags, "updateRecipe" : True}
+				for i in range(len(ingredientsList)):
+					obj = {"id" : i, "ingredient" : ingredientsList[i]}
+					ingredients.append(obj)
+
+				context = {"recipe" : recipe, "ingredients" : ingredients, "tags" : tags, "nbIngredients" : len(ingredients), "updateRecipe" : True}
 				return render(request, 'cookbook/createRecipe.html', context)
 
 			else:
