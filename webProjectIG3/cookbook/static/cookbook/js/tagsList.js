@@ -12,7 +12,7 @@ function handleTagsList(){
 	addTagButton.addEventListener("click", function(e) {
 
 
-		const tag = document.getElementById('searchBarTagsInput').value;
+		const tag = document.getElementById('searchBarTagsInput').value.replace('<', '&lt').replace('>', '&gt');
 
 		if(!isAlreadyAdded(tag)) {
 

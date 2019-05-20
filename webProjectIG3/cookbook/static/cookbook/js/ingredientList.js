@@ -12,9 +12,9 @@ function handleIngredientsList(){
 	addIngredientButton.addEventListener("click", function(e) {
 
 
-		const ingredient = document.getElementById('searchBarInput').value;
-		const unit = document.getElementById('unit').value;
-		const qty = document.getElementById('qty').value;
+		const ingredient = document.getElementById('searchBarInput').value.replace('<', '&lt').replace('>', '&gt');
+		const unit = document.getElementById('unit').value.replace('<', '&lt').replace('>', '&gt');
+		const qty = document.getElementById('qty').value.replace('<', '&lt').replace('>', '&gt');
 
 		if(!isAlreadyAdded(ingredient)) {
 
