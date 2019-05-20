@@ -144,18 +144,22 @@ def createRecipe(request):
 			qty = request.POST.getlist("qty[]")
 			tags = request.POST.getlist("tags[]")
 
-			nbIngredient = len(ingredients)
-			nbTags = len(tags)
 
-			for i in range(nbIngredient):
+			i = 0
+			while i < len(ingredients):
 				if not Ingredient.objects.filter(name = ingredients[i]).exists():
 					del ingredients[i]
 					del unit[i]
 					del qty[i]
+				else:
+					i+=1
 
-			for i in range(nbTags):
-				if not RecipeTag.objects.filter(name = tags[i]).exists():
-					del tags[i]
+			j = 0
+			while j < len(tags):
+				if not RecipeTag.objects.filter(name = tags[j]).exists():
+					del tags[j]
+				else:
+					j+=1
 					
 			if name and recipe_text and nb_people and ingredients and unit and qty:
 				if len(ingredients) == len(unit) and len(unit) == len(qty):
@@ -164,7 +168,7 @@ def createRecipe(request):
 						recipe = Recipe(user = user, name = name, recipe_text = recipe_text, number_of_people = int(nb_people))
 						recipe.save()
 
-						for i in range(nbIngredient):
+						for i in range(len(ingredients)):
 							contains = Contains(
 								ingredient = Ingredient.objects.get(name = ingredients[i]),
 								unit = unit[i],
@@ -172,7 +176,7 @@ def createRecipe(request):
 								recipe = recipe)
 							contains.save()
 
-						for i in range(nbTags):
+						for i in range(len(tags)):
 							belongs = Belongs(recipeTag = RecipeTag.objects.get(name = tags[i]), recipe = recipe)
 							belongs.save()
 
@@ -303,18 +307,21 @@ def updateRecipe(request, recipe_id):
 				qty = request.POST.getlist("qty[]")
 				tags = request.POST.getlist("tags[]")
 
-				nbIngredient = len(ingredients)
-				nbTags = len(tags)
-
-				for i in range(nbIngredient):
+				i = 0
+				while i < len(ingredients):
 					if not Ingredient.objects.filter(name = ingredients[i]).exists():
 						del ingredients[i]
 						del unit[i]
 						del qty[i]
+					else:
+						i+=1
 
-				for i in range(nbTags):
-					if not RecipeTag.objects.filter(name = tags[i]).exists():
-						del tags[i]
+				j = 0
+				while j < len(tags):
+					if not RecipeTag.objects.filter(name = tags[j]).exists():
+						del tags[j]
+					else:
+						j+=1
 						
 				if name and recipe_text and nb_people and ingredients and unit and qty:
 					if len(ingredients) == len(unit) and len(unit) == len(qty):
@@ -329,7 +336,7 @@ def updateRecipe(request, recipe_id):
 							Contains.objects.filter(recipe = recipe).delete()
 							Belongs.objects.filter(recipe = recipe).delete()
 
-							for i in range(nbIngredient):
+							for i in range(len(ingredients)):
 								contains = Contains(
 									ingredient = Ingredient.objects.get(name = ingredients[i]),
 									unit = unit[i],
@@ -337,7 +344,7 @@ def updateRecipe(request, recipe_id):
 									recipe = recipe)
 								contains.save()
 
-							for i in range(nbTags):
+							for i in range(len(tags)):
 								belongs = Belongs(recipeTag = RecipeTag.objects.get(name = tags[i]), recipe = recipe)
 								belongs.save()
 

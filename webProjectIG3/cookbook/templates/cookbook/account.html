@@ -56,7 +56,7 @@
 		    {% else %}
 		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Accueil</a>
+		        <a class="nav-link" href="{% url 'cookbook:index' %}">Accueil</a>
 		      </li>
 		    </ul>
 		    <ul class="navbar-nav">
@@ -85,7 +85,7 @@
 					{% endfor %}
 					{% endif %}
 
-					<form action="{% url 'cookbook:account' %}" method="put">
+					<form action="{% url 'cookbook:account' %}" method="post">
 						{% csrf_token %}
 						<div class="form-row formField">
 							<div class="col">
