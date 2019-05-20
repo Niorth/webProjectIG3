@@ -3,7 +3,7 @@ function autocomplete(inp, arr) {
   	var currentFocus;
 
   	inp.addEventListener("input", function(e) {
-		var ingredientsListDiv, ingredientDiv, i, inputVal = this.value;
+		var ingredientsListDiv, ingredientDiv, i, inputVal = this.value.replace('>', '&gt');
 
 		closeAllLists();
 		if (!inputVal) { return false;}
