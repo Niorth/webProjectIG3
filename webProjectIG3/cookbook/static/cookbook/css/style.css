@@ -1,0 +1,209 @@
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+#navbar 
+{
+    background-color: #66219c;
+}
+
+.navIcon
+{
+	font-size: 200%;
+}
+
+#account
+{
+	width: 15%;
+}
+
+#searchBar
+{
+	margin-right: 8%;
+}
+
+.searchBar-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  left: 0;
+  right: 0;
+}
+
+.searchBar-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.searchBar-items div:hover {
+  /*when hovering an item:*/
+  background-color: #66219c;
+  color: #ffffff;
+}
+
+.searchBar-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color:  #66219c !important;
+  color: #ffffff;
+}
+
+#formArea{
+    background-color: #EAEAEA;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 5%;
+    margin-bottom: 5%; 
+    padding-bottom: 1%;
+    padding-left: 0px;
+    padding-right: 0px;
+    box-shadow: 8px 8px 12px #aaa;
+}
+
+#loginForm{
+    width: 70%;
+    margin: auto;
+}
+
+#joinForm {
+    width: 70%;
+    margin: auto;
+}
+
+#accountForm {
+	width: 70%;
+    margin: auto;
+}
+
+#recipeForm {
+	width: 80%;
+    margin: auto;
+}
+
+#formTitle {
+	background-color: #66219c;
+	color: white;
+	padding: 4px;
+}
+
+.formField {
+	margin-bottom: 4%
+}
+
+.row {
+	width:100%;
+}
+
+.accountBtn {
+	margin-top: auto;
+}
+
+.flex {
+	display: flex;
+}
+
+.card {
+  width: 25%;
+  display: inline-block;
+  margin: 4%;
+}
+
+@media only screen and (max-width: 800px) {
+  /* For mobile phones: */
+  .card {
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 75%;
+    display: flex;
+  }
+}
+
+#recipesTitle {
+  width: 80%;
+  background-color: #66219c;
+  box-shadow: 8px 8px 12px #aaa;
+  margin: auto;
+  border-radius: .25rem;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  color:white;
+}
+
+#recipesBg {
+  width: 80%;
+  background-color: #EAEAEA;
+  box-shadow: 8px 8px 12px #aaa;
+  margin: auto;
+  border-radius: .25rem;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  padding: 20px;
+}
+
+.list-group-item {
+  background-color: #EAEAEA;
+}
+
+.list-group {
+  margin-bottom: 20px;
+}
+
+#recipeImg {
+  max-width: 50%;
+  margin: auto;
+}
+
+.lineSeparator {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.recipeBtns {
+  display: grid;
+  position: absolute;
+  bottom:0;
+  right:0;
+}
+
+.recipeBtn {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.white {
+  color: white;
+}
+
+#index {
+  width: 50%;
+  background-color: #66219c;
+  margin: auto; 
+  margin-top: 100px;
+  box-shadow: 8px 8px 12px #aaa;
+  border-radius: .25rem;
+  text-align: center;
+  padding: 20px;
+}
+
+.btnIndex {
+  margin-top: 100px;
+  margin-bottom: 20px;
+  bottom: 0;
+}
+
+#searchBarRecipeInputsearchBar-list {
+  right: auto;
+  left: auto;
+  min-width: 80%;
+  top: 100%;
+}
+
+#searchBarRecipe {
+  position: relative;
+  margin-right: 20px;
+}

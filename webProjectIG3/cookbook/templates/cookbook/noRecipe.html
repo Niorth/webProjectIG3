@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+	{% load static %}
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/bootstrap/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/style.css' %}" />
+
+		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
+		<script src="{% static 'cookbook/js/bootstrap/bootstrap.min.js' %}"></script>
+
+	</head>
+
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <a class="navbar-brand" href="{% url 'cookbook:index' %}">
+		    <img src="{% static 'cookbook/images/cookbookLogo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+		    Cookbook
+		  </a>
+
+		  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			{% if user.is_authenticated %}	
+		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:index' %}">Accueil</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:recipes' %}">Mes Recettes</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:createRecipe' %}">Créer une recette</a>
+		      </li>
+		    </ul>
+
+		    <form class="form-inline my-2 my-lg-0" id="searchBarRecipe" action="{% url 'cookbook:getRecipeByName' %}" method="get">
+		      <input class="form-control mr-sm-2" id="searchBarRecipeInput" name="name" type="search" placeholder="Chercher" aria-label="Search" data-ajax-target="{% url 'cookbook:getAllRecipes' %}" autocomplete="off">
+		      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+		    </form>
+		    
+		    <ul class="navbar-nav ">
+		      <li class="nav-item">
+		        <a class="nav-link" id="account" href="{% url 'cookbook:account' %}"><i class="far fa-user navIcon"></i></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" id="account" href="{% url 'cookbook:logout' %}"><i class="fas fa-sign-out-alt navIcon"></i></a>
+		      </li>
+		    </ul>
+		    
+		    
+		    {% else %}
+		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Accueil</a>
+		      </li>
+		    </ul>
+		    <ul class="navbar-nav">
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:login' %}"><button type="button" class="btn btn-outline-light">Connexion</button></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:join' %}"><button type="button" class="btn btn-outline-light">Inscription</button></a>
+		      </li>
+		    </ul>
+		    {% endif %}
+		  </div>
+		</nav>
+
+	</header>
+
+	<body>
+		<div id="recipesBg">
+			<h1>Recette introuvable</h1>
+		<div>
+	</body>
+
+	<footer>
+		<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
+	</footer>
+</html>

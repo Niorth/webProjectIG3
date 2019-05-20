@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+
+	{% load static %}
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/bootstrap/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="{% static 'cookbook/css/style.css' %}" />
+
+		<script src="{% static 'cookbook/js/jquery-3.4.1.min.js' %}"></script>
+		<script src="{% static 'cookbook/js/bootstrap/bootstrap.min.js' %}"></script>
+
+	</head>
+
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <a class="navbar-brand" href="{% url 'cookbook:index' %}">
+		    <img src="{% static 'cookbook/images/cookbookLogo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+		    Cookbook
+		  </a>
+
+		  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			{% if user.is_authenticated %}	
+		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:index' %}">Accueil</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:recipes' %}">Mes Recettes</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:createRecipe' %}">Créer une recette</a>
+		      </li>
+		    </ul>
+
+		    <form class="form-inline my-2 my-lg-0" id="searchBarRecipe" action="{% url 'cookbook:getRecipeByName' %}" method="get">
+		      <input class="form-control mr-sm-2" id="searchBarRecipeInput" name="name" type="search" placeholder="Chercher" aria-label="Search" data-ajax-target="{% url 'cookbook:getAllRecipes' %}" autocomplete="off">
+		      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+		    </form>
+		    
+		    <ul class="navbar-nav ">
+		      <li class="nav-item">
+		        <a class="nav-link" id="account" href="{% url 'cookbook:account' %}"><i class="far fa-user navIcon"></i></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" id="account" href="{% url 'cookbook:logout' %}"><i class="fas fa-sign-out-alt navIcon"></i></a>
+		      </li>
+		    </ul>
+		    
+		    
+		    {% else %}
+		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Accueil</a>
+		      </li>
+		    </ul>
+		    <ul class="navbar-nav">
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:login' %}"><button type="button" class="btn btn-outline-light">Connexion</button></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'cookbook:join' %}"><button type="button" class="btn btn-outline-light">Inscription</button></a>
+		      </li>
+		    </ul>
+		    {% endif %}
+		  </div>
+		</nav>
+
+	</header>
+
+	<body>
+		<div class="row">
+			<div class="col-md-2"></div>
+				<div class="col-md-8" id="formArea">
+					<h1 id="formTitle">Créer une recette</h1>
+
+					{% if messages %}
+					{% for message in messages %}
+					<p><strong>{{ message }}</strong></p>
+					{% endfor %}
+					{% endif %}
+
+					<form action="{% url 'cookbook:createRecipe' %}" method="post" id="recipeForm" class="form-group">
+					{% csrf_token %}
+						<div class="formField">
+							<label for="name">Nom de la recette</label>
+						    <input class="form-control" type="text" name="name" id="name" value="{% if recipe %}{{recipe.name}}{% endif %}"/>
+						</div>
+						<div class="formField">
+							<label for="recipe_text">Recette</label>
+							<textarea class="form-control" name="rexipe_text" id="recipe_text" rows="10">{% if recipe %}{{recipe.recipe_text}}{% endif %}</textarea>			
+						</div>
+						<div class="formField">	
+							<label for="nb_people">Nombre de personne</label>
+							<input class="form-control" type="number" name="nb_people" id="nb_people" min=0 value="{% if recipe %}{{recipe.number_of_people}}{% endif %}"/>			
+						</div>
+						
+						<div class="formField row">
+							<div class="col">
+								<div>
+									<label for="ingredient" >Ingredient</label>
+									<input class="form-control formField" type="text" placeholder="Chercher..." name="ingredient" id="searchBarInput" data-ajax-target="{% url 'cookbook:getAllIngredients' %}">	
+								</div>
+
+								<label for="unit">Unité</label>
+								<input class="form-control formField" type="text" placeholder="Kg" name="unit" id="unit">
+
+								<label for="qty">Quantité</label>
+								<input class="form-control formField" type="number" name="qty" id="qty" min=0>
+
+								<button type="button" id="addIngredientButton" class="btn btn-dark">Ajouter</button>
+							</div>
+							<div class="col">
+								<label>Ingredients</label>
+								<select class="custom-select formField" id="ingredientsList" multiple rows=10>
+									{% if ingredients %}
+										{% for ingredient in ingredients %}
+											<option id="option{{ ingredient.id }}">{{ingredient.ingredient.ingredient.name}} {{ingredient.ingredient.quantity}}{{ingredient.ingredient.unit}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+
+								<button type="button" class="btn btn-dark" id="removeIngredientButton">Retirer</button>
+								<div id="ingredientsHidden">
+									{% if ingredients %}
+										<input type="hidden" name="nbIngredients" value="{{nbIngredients}}" id="nbIngredients">
+										{% for ingredient in ingredients %}
+											<input type="hidden" class="ingredient" id="ingredient{{ingredient.id}}" value="{{ ingredient.ingredient.ingredient.name }}">
+											<input type="hidden" class="qty" id="qty{{ingredient.id}}" value="{{ ingredient.ingredient.quantity }}">
+											<input type="hidden" class="unit" id="unit{{ingredient.id}}" value="{{ ingredient.ingredient.unit }}">
+										{% endfor %}
+									{% else %}
+									{% endif %}
+									<input type="hidden" name="nbIngredients" value="0" id="nbIngredients">
+								</div>
+							</div>
+						</div>
+						<div class="formField row">
+							<div class="col">
+								<div>
+									<label for="tags" >Tag</label>
+									<input class="form-control formField" type="text" placeholder="Chercher..." name="tags" id="searchBarTagsInput" data-ajax-target="{% url 'cookbook:getAllTags' %}">
+								</div>
+								<button type="button" id="addTagButton" class="btn btn-dark">Ajouter</button>
+							</div>
+							<div class="col">
+								<label>Tags</label>
+								<select class="custom-select formField" id="tagsList" multiple rows=5>
+									{% if tags %}
+										{% for tag in tags %}
+											<option class="tag">{{tag.recipeTag.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+
+								<button type="button" class="btn btn-dark" id="removeTagButton">Retirer</button>
+							</div>				
+						</div>
+						
+
+					<button type="button" id="submitBtn" class="btn btn-dark" data-ajax-target="{% if updateRecipe %}{% url 'cookbook:updateRecipe' recipe.id%}{% else %}{% url 'cookbook:createRecipe' %}{% endif %}">Valider</button>
+					<p id="message"></p>
+					</form>
+	</body>
+
+	<footer>
+	<script src="{% static 'cookbook/js/searchBar.js' %}"></script>
+	<script src="{% static 'cookbook/js/ingredientList.js' %}"></script>
+	<script src="{% static 'cookbook/js/tagsList.js' %}"></script>
+	<script src="{% static 'cookbook/js/submitRecipe.js' %}"></script>
+	</footer>
+</html>
